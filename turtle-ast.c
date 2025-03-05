@@ -117,8 +117,6 @@ struct ast_node *make_cmd_home() {
 }
 
 
-
-
 void ast_destroy(struct ast *self) {
 
 }
