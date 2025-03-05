@@ -13,7 +13,6 @@ DIGIT [0-9]
 EXP [eE][+-]?({DIGIT}+)
 DEC "."{DIGIT}*
 COMM  #.*\n
-COLOR (0.{DIGIT}*)|(1.0)
 
 %%
 
@@ -29,6 +28,16 @@ COLOR (0.{DIGIT}*)|(1.0)
 "color"               { return KW_COLOR; }
 "home"                { return KW_HOME; }
 
+"red"       { return COLOR_RED; }
+"green"     { return COLOR_GREEN; }
+"blue"      { return COLOR_BLUE; }
+"cyan"      { return COLOR_CYAN; }
+"magenta"   { return COLOR_MAGENTA; }
+"yellow"    { return COLOR_YELLOW; }
+"black"     { return COLOR_BLACK; }
+"gray"      { return COLOR_GRAY; }
+"white"     { return COLOR_WHITE; }
+
 "+"           { return '+'; }
 "-"           { return '-'; }
 "*"           { return '*'; }
@@ -39,7 +48,6 @@ COLOR (0.{DIGIT}*)|(1.0)
 "}"           { return '}'; }
 "^"           { return '^'; }
 
-{COLOR}[]*{COLOR}[]*{COLOR}     { /* TO DO */ }
 {DIGIT}+{DEC}?{EXP}?            { yylval.value = strtod(yytext, NULL); return VALUE; }
 {COMM}                          { return '\n'; }
 
