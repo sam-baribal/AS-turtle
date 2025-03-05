@@ -10,6 +10,10 @@
 %option warn 8bit nodefault noyywrap
 
 DIGIT [0-9]
+EXP [eE][+-]?({DIGIT}+)
+DEC "."{DIGIT}*
+COMM  #.*\n
+COLOR (0.{DIGIT}*)|(1.0)
 
 %%
 
@@ -35,7 +39,9 @@ DIGIT [0-9]
 "}"           { return '}'; }
 "^"           { return '^'; }
 
-{DIGIT}+              { yylval.value = strtod(yytext, NULL); return VALUE; }
+{COLOR}[]*{COLOR}[]*{COLOR}     { /* TO DO */ }
+{DIGIT}+{DEC}?{EXP}?            { yylval.value = strtod(yytext, NULL); return VALUE; }
+{COMM}                          { return '\n'; }
 
 [\n\t ]*              /* whitespace */
 .                     { fprintf(stderr, "Unknown token: '%s'\n", yytext); exit(EXIT_FAILURE); }
