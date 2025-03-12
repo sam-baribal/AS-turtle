@@ -21,20 +21,33 @@ void yyerror(struct ast *ret, const char *);
   struct ast_node *node;
 }
 
-%token <value>    VALUE       "value"
-%token <name>     NAME        "name"
+%token <value>    VALUE         "value"
+%token <name>     NAME          "name"
 
-%token            KW_FORWARD  "forward"
-%token            KW_BACKWARD "backward"
-%token            KW_PRINT    "print"
-%token            KW_UP       "up"
-%token            KW_DOWN     "down"
-%token            KW_POSITION "position"
-%token            KW_RIGHT    "right"
-%token            KW_LEFT     "left"
-%token            KW_HEADING  "heading"
-%token            KW_COLOR    "color"
-%token            KW_HOME     "home"
+%token            KW_FORWARD    "forward"
+%token            KW_BACKWARD   "backward"
+%token            KW_PRINT      "print"
+%token            KW_UP         "up"
+%token            KW_DOWN       "down"
+%token            KW_POSITION   "position"
+%token            KW_RIGHT      "right"
+%token            KW_LEFT       "left"
+%token            KW_RIGHT      "rt"
+%token            KW_LEFT       "lt"
+%token            KW_HEADING    "heading"
+%token            KW_COLOR      "color"
+%token            KW_HOME       "home"
+
+%token            KIND_CMD_REPEAT "repeat"
+%token            KIND_CMD_SET    "set"
+%token            KIND_CMD_PROC   "proc"
+%token            KIND_CMD_CALL   "call"
+
+%token            FUNC_COS        "cos"
+%token            FUNC_RANDOM     "random"
+%token            FUNC_SIN        "sin"
+%token            FUNC_SQRT       "sqrt"
+%token            FUNC_TAN        "tan"
 
 %token            COLOR_RED     "red"
 %token            COLOR_GREEN   "green"
@@ -73,15 +86,16 @@ cmd:
   | KW_HEADING expr         { $$ = make_cmd_heading($2); }
   | KW_COLOR expr expr expr { $$ = make_cmd_color($2, $3, $4); }
   | KW_HOME                 { $$ = make_cmd_home(); }
-  | COLOR_RED       { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(0.0), make_expr_value(0.0)); }
-  | COLOR_GREEN     { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(1.0), make_expr_value(0.0)); }
-  | COLOR_BLUE      { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(0.0), make_expr_value(1.0)); }
-  | COLOR_CYAN      { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(1.0), make_expr_value(1.0)); }
-  | COLOR_MAGENTA   { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(0.0), make_expr_value(1.0)); }
-  | COLOR_YELLOW    { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(1.0), make_expr_value(0.0)); }
-  | COLOR_BLACK     { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(0.0), make_expr_value(0.0)); }
-  | COLOR_GRAY      { $$ = make_cmd_color(make_expr_value(0.5), make_expr_value(0.5), make_expr_value(0.5)); }
-  | COLOR_WHITE     { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(1.0), make_expr_value(1.0)); }
+  | FUNC_COS                { $$ = make_cmd_home(); }
+  | COLOR_RED               { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(0.0), make_expr_value(0.0)); }
+  | COLOR_GREEN             { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(1.0), make_expr_value(0.0)); }
+  | COLOR_BLUE              { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(0.0), make_expr_value(1.0)); }
+  | COLOR_CYAN              { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(1.0), make_expr_value(1.0)); }
+  | COLOR_MAGENTA           { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(0.0), make_expr_value(1.0)); }
+  | COLOR_YELLOW            { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(1.0), make_expr_value(0.0)); }
+  | COLOR_BLACK             { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(0.0), make_expr_value(0.0)); }
+  | COLOR_GRAY              { $$ = make_cmd_color(make_expr_value(0.5), make_expr_value(0.5), make_expr_value(0.5)); }
+  | COLOR_WHITE             { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(1.0), make_expr_value(1.0)); }
 ;
 
 expr:
