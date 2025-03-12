@@ -61,7 +61,7 @@ cmd:
   | KW_LEFT expr            { $$ = make_cmd_left($2); }
   | KW_HEADING expr         { $$ = make_cmd_heading($2); }
   | KW_COLOR expr           { $$ = make_cmd_color($2); }
-  | KW_COLOR expr expr expr { $$ = make_cmd_color($2, $3, $4); }
+  | KW_COLOR expr expr expr { $$ = make_cmd_colorRGB($2, $3, $4); }
   | KW_HOME                 { $$ = make_cmd_home(); }
 
 ;
