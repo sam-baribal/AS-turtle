@@ -7,13 +7,39 @@
 #include <string.h>
 #include <math.h>
 
-#define PI 3.141592653589793
+#define PI 3.14159265358979323846
+#define SQRT2 1.41421356237309504880 
+#define SQRT3 1.7320508075688772935
 
 struct ast_node *make_expr_value(double value) {
   struct ast_node *node = calloc(1, sizeof(struct ast_node));
   node->kind = KIND_EXPR_VALUE;
   node->u.value = value;
   return node;
+}
+
+struct ast_node *make_expr_name(const char* name) {
+  struct ast_node *node = calloc(1, sizeof(struct ast_node));
+  node->kind = KIND_EXPR_NAME;
+  if (strcmp(name, "PI") == 0){
+    node->u.value = PI;
+  }
+  if (strcmp(name, "SQRT2") == 0){
+    node->u.value = SQRT2;
+  }
+  if (strcmp(name, "SQRT3") == 0){
+    node->u.value = SQRT3;
+  }
+  return node;
+}
+
+struct ast_node *make_expr_func(struct ast_node *funcName, struct ast_node *expr) {
+  struct ast_node *node = calloc(1, sizeof(struct ast_node));
+  node->kind
+}
+
+struct ast_node *make_expr_func(struct ast_node *funcName, struct ast_node *expr1, struct ast_node *expr2) {
+  struct ast_node *node = calloc(1, sizeof(struct ast_node));
 }
 
 struct ast_node *make_cmd_forward(struct ast_node *expr) {

@@ -24,28 +24,39 @@ void yyerror(struct ast *ret, const char *);
 %token <value>    VALUE       "value"
 %token <name>     NAME        "name"
 
-%token            KW_FORWARD  "forward"
-%token            KW_BACKWARD "backward"
-%token            KW_PRINT    "print"
-%token            KW_UP       "up"
-%token            KW_DOWN     "down"
-%token            KW_POSITION "position"
-%token            KW_RIGHT    "right"
-%token            KW_LEFT     "left"
-%token            KW_HEADING  "heading"
-%token            KW_COLOR    "color"
-%token            KW_HOME     "home"
+%token <node>     FUNC        "func"
 
-%token            COLOR_RED     "red"
-%token            COLOR_GREEN   "green"
-%token            COLOR_BLUE    "blue"
-%token            COLOR_CYAN    "cyan"
-%token            COLOR_MAGENTA "magenta"
-%token            COLOR_YELLOW  "yellow"
-%token            COLOR_BLACK   "black"
-%token            COLOR_GRAY    "gray"
-%token            COLOR_WHITE   "white"
+%token <node>     KW_FORWARD  "forward"
+%token <node>     KW_BACKWARD "backward"
+%token <node>     KW_PRINT    "print"
+%token <node>     KW_UP       "up"
+%token <node>     KW_DOWN     "down"
+%token <node>     KW_POSITION "position"
+%token <node>     KW_RIGHT    "right"
+%token <node>     KW_LEFT     "left"
+%token <node>     KW_HEADING  "heading"
+%token <node>     KW_COLOR    "color"
+%token <node>     KW_HOME     "home"
 
+%token <node>     KW_SIN      "sin"
+%token <node>     KW_COS      "cos"
+%token <node>     KW_TAN      "tan"
+%token <node>     KW_SQRT     "sqrt"
+%token <node>     KW_RANDOM   "random"
+
+%token <node>     COLOR_RED     "red"
+%token <node>     COLOR_GREEN   "green"
+%token <node>     COLOR_BLUE    "blue"
+%token <node>     COLOR_CYAN    "cyan"
+%token <node>     COLOR_MAGENTA "magenta"
+%token <node>     COLOR_YELLOW  "yellow"
+%token <node>     COLOR_BLACK   "black"
+%token <node>     COLOR_GRAY    "gray"
+%token <node>     COLOR_WHITE   "white"
+
+%left '+' '-'
+%left '*' '/'
+ 
 /* TODO: add other tokens */
 
 %type <node> unit cmds cmd expr
@@ -85,9 +96,17 @@ cmd:
 ;
 
 expr:
-    VALUE           { $$ = make_expr_value($1); }
-    /* TODO: add identifier */
-;
+    VALUE             { $$ = make_expr_value($1); }
+  | NAME              { $$ = constant($1); }
+  | FUNC '(' expr ')' { $$ = make_expr}
+  | expr '+' expr     { $$ = $1 + $3; }
+  | expr '-' expr     { $$ = $1 - $3; }
+  | expr '*' expr     { $$ = $1 * $3; }
+  | expr '/' expr     { $$ = $1 / $3; }
+  | expr '^' expr     { $$ = $1 ^ $3; }
+  | '-' expr          { $$ = (-$2); }
+  | '(' expr ')'      { $$ = ($2); }
+ ;
 
 %%
 
