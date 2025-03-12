@@ -35,6 +35,17 @@ void yyerror(struct ast *ret, const char *);
 %token            KW_HEADING  "heading"
 %token            KW_COLOR    "color"
 %token            KW_HOME     "home"
+
+%token            COLOR_RED     "red"
+%token            COLOR_GREEN   "green"
+%token            COLOR_BLUE    "blue"
+%token            COLOR_CYAN    "cyan"
+%token            COLOR_MAGENTA "magenta"
+%token            COLOR_YELLOW  "yellow"
+%token            COLOR_BLACK   "black"
+%token            COLOR_GRAY    "gray"
+%token            COLOR_WHITE   "white"
+
 /* TODO: add other tokens */
 
 %type <node> unit cmds cmd expr
@@ -60,14 +71,21 @@ cmd:
   | KW_RIGHT expr           { $$ = make_cmd_right($2); }
   | KW_LEFT expr            { $$ = make_cmd_left($2); }
   | KW_HEADING expr         { $$ = make_cmd_heading($2); }
-  | KW_COLOR expr           { $$ = make_cmd_color($2); }
-  | KW_COLOR expr expr expr { $$ = make_cmd_colorRGB($2, $3, $4); }
+  | KW_COLOR expr expr expr { $$ = make_cmd_color($2, $3, $4); }
   | KW_HOME                 { $$ = make_cmd_home(); }
-
+  | COLOR_RED       { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(0.0), make_expr_value(0.0)); }
+  | COLOR_GREEN     { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(1.0), make_expr_value(0.0)); }
+  | COLOR_BLUE      { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(0.0), make_expr_value(1.0)); }
+  | COLOR_CYAN      { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(1.0), make_expr_value(1.0)); }
+  | COLOR_MAGENTA   { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(0.0), make_expr_value(1.0)); }
+  | COLOR_YELLOW    { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(1.0), make_expr_value(0.0)); }
+  | COLOR_BLACK     { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(0.0), make_expr_value(0.0)); }
+  | COLOR_GRAY      { $$ = make_cmd_color(make_expr_value(0.5), make_expr_value(0.5), make_expr_value(0.5)); }
+  | COLOR_WHITE     { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(1.0), make_expr_value(1.0)); }
 ;
 
 expr:
-    VALUE             { $$ = make_expr_value($1); }
+    VALUE           { $$ = make_expr_value($1); }
     /* TODO: add identifier */
 ;
 

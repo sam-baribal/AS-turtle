@@ -100,17 +100,7 @@ struct ast_node *make_cmd_heading(struct ast_node *expr) {
 }
 
 
-struct ast_node *make_cmd_color(struct ast_node *expr) {
-  struct ast_node *node = calloc(1, sizeof(struct ast_node));
-  node->kind = KIND_CMD_SIMPLE;
-  node->u.cmd = CMD_COLOR;
-  node->children_count = 1;
-  node->children[0] = expr;
-  return node;
-}
-
-
-struct ast_node *make_cmd_colorRGB(struct ast_node *valueR, struct ast_node *valueG, struct ast_node *valueB) {
+struct ast_node *make_cmd_color(struct ast_node *valueR, struct ast_node *valueG, struct ast_node *valueB) {
   struct ast_node *node = calloc(1, sizeof(struct ast_node));
   node->kind = KIND_CMD_SIMPLE;
   node->u.cmd = CMD_COLOR;
