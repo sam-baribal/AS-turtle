@@ -69,8 +69,6 @@ struct ast_node {
 // for example:
 struct ast_node *make_expr_value(double value);
 struct ast_node *make_expr_name(const char* name);
-struct ast_node *make_expr_func(struct ast_node *funcName, struct ast_node *expr);
-struct ast_node *make_expr_func(struct ast_node *funcName, struct ast_node *expr1, struct ast_node *expr2);
 
 struct ast_node *make_cmd_print(struct ast_node *expr);
 struct ast_node *make_cmd_forward(struct ast_node *expr);
