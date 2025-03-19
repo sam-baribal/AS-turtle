@@ -84,7 +84,7 @@ struct ast_node *make_cmd_color(struct ast_node *valueR, struct ast_node *valueG
 struct ast_node *make_cmd_home();
 
 struct ast_node *make_func_cos(struct ast_node *expr);
-struct ast_node *make_func_rand();
+struct ast_node *make_func_rand(struct ast_node *down_limit, struct ast_node *up_limit);
 struct ast_node *make_func_sin(struct ast_node *expr);
 struct ast_node *make_func_sqrt(struct ast_node *expr);
 struct ast_node *make_func_tan(struct ast_node *expr);
