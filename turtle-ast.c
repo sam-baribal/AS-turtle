@@ -130,11 +130,13 @@ struct ast_node *make_func_cos(struct ast_node *expr) {
 }
 
 
-struct ast_node *make_func_rand() {
+struct ast_node *make_func_rand(struct ast_node *down_limit, struct ast_node *up_limit) {
   struct ast_node *node = calloc(1, sizeof(struct ast_node));
   node->kind = KIND_EXPR_FUNC;
   node->u.func = FUNC_RANDOM;
-  node->children_count = 0;
+  node->children_count = 2;
+  node->children[0] = down_limit;
+  node->children[1] = up_limit;
   return node;
 }
 
