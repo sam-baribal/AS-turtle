@@ -203,7 +203,7 @@ void context_create(struct context *self) {
  */
 
 void ast_eval(const struct ast *self, struct context *ctx) {
-
+  
 }
 
 /*
@@ -211,5 +211,37 @@ void ast_eval(const struct ast *self, struct context *ctx) {
  */
 
 void ast_print(const struct ast *self) {
-  
+  switch (self->kind) {
+    case KIND_CMD_SIMPLE :
+      ;
+      break;
+    case KIND_EXPR_VALUE :
+      ;
+      break;
+    case KIND_EXPR_BINOP :
+      std::cout << self->u.op;
+      break;
+    case KIND_EXPR_UNOP :
+      std::cout << self->u.op;
+      break;
+    case KIND_EXPR_NAME :
+      std::cout << self->u.name;
+      break;
+    case KIND_EXPR_FUNC :
+      switch (self->kind) {
+        case FUNC_COS :
+          std::cout << "cos ";
+          break;
+      }
+      break;
+    default:
+      std::cout << "\nError : ast_print don't understand kind of the node\n";
+  }
+  for (int child_index = 0 ; child_index < self->children_count ; child_index++) {
+    ast_print (self->children [child_index]);
+  }
 }
+
+
+
+
