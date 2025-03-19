@@ -31,24 +31,22 @@ void yyerror(struct ast *ret, const char *);
 %token            KW_UP         "up"
 %token            KW_DOWN       "down"
 %token            KW_POSITION   "position"
-%token            KW_RIGHT      "right"
-%token            KW_LEFT       "left"
-%token            KW_RIGHT      "rt"
-%token            KW_LEFT       "lt"
+%token            KW_RIGHT      "right" // "rt"
+%token            KW_LEFT       "left"  // "lt"
 %token            KW_HEADING    "heading"
 %token            KW_COLOR      "color"
 %token            KW_HOME       "home"
 
-%token            KIND_CMD_REPEAT "repeat"
-%token            KIND_CMD_SET    "set"
-%token            KIND_CMD_PROC   "proc"
-%token            KIND_CMD_CALL   "call"
+%token            KW_REPEAT     "repeat"
+%token            KW_SET        "set"
+%token            KW_PROC       "proc"
+%token            KW_CALL       "call"
 
-%token            FUNC_COS        "cos"
-%token            FUNC_RANDOM     "random"
-%token            FUNC_SIN        "sin"
-%token            FUNC_SQRT       "sqrt"
-%token            FUNC_TAN        "tan"
+%token            KW_COS        "cos"
+%token            KW_RANDOM     "random"
+%token            KW_SIN        "sin"
+%token            KW_SQRT       "sqrt"
+%token            KW_TAN        "tan"
 
 %token            COLOR_RED     "red"
 %token            COLOR_GREEN   "green"
@@ -89,11 +87,11 @@ cmd:
   | KW_HEADING expr         { $$ = make_cmd_heading($2); }
   | KW_COLOR expr expr expr { $$ = make_cmd_color($2, $3, $4); }
   | KW_HOME                 { $$ = make_cmd_home(); }
-  | FUNC_COS expr           { $$ = make_func_cos($2); }
-  | FUNC_RANDOM expr expr   { $$ = make_func_rand($2, $3); }
-  | FUNC_SIN expr           { $$ = make_func_sin($2); }
-  | FUNC_SQRT expr          { $$ = make_func_sqrt($2); }
-  | FUNC_TAN expr           { $$ = make_func_tan($2); }
+  | KW_COS expr             { $$ = make_func_cos($2); }
+  | KW_RANDOM expr expr     { $$ = make_func_rand($2, $3); }
+  | KW_SIN expr             { $$ = make_func_sin($2); }
+  | KW_SQRT expr            { $$ = make_func_sqrt($2); }
+  | KW_TAN expr             { $$ = make_func_tan($2); }
   | COLOR_RED               { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(0.0), make_expr_value(0.0)); }
   | COLOR_GREEN             { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(1.0), make_expr_value(0.0)); }
   | COLOR_BLUE              { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(0.0), make_expr_value(1.0)); }
