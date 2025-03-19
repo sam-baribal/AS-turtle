@@ -120,6 +120,51 @@ struct ast_node *make_cmd_home() {
   return node;
 }
 
+struct ast_node *make_func_cos(struct ast_node *expr) {
+  struct ast_node *node = calloc(1, sizeof(struct ast_node));
+  node->kind = KIND_EXPR_FUNC;
+  node->u.func = FUNC_COS;
+  node->children_count = 1;
+  node->children[0] = expr;
+  return node;
+}
+
+
+struct ast_node *make_func_rand() {
+  struct ast_node *node = calloc(1, sizeof(struct ast_node));
+  node->kind = KIND_EXPR_FUNC;
+  node->u.func = FUNC_RANDOM;
+  node->children_count = 0;
+  return node;
+}
+
+struct ast_node *make_func_sin(struct ast_node *expr) {
+  struct ast_node *node = calloc(1, sizeof(struct ast_node));
+  node->kind = KIND_EXPR_FUNC;
+  node->u.func = FUNC_SIN;
+  node->children_count = 1;
+  node->children[0] = expr;
+  return node;
+}
+
+struct ast_node *make_func_sqrt(struct ast_node *expr) {
+  struct ast_node *node = calloc(1, sizeof(struct ast_node));
+  node->kind = KIND_EXPR_FUNC;
+  node->u.func = FUNC_SQRT;
+  node->children_count = 1;
+  node->children[0] = expr;
+  return node;
+}
+
+struct ast_node *make_func_tan(struct ast_node *expr) {
+  struct ast_node *node = calloc(1, sizeof(struct ast_node));
+  node->kind = KIND_EXPR_FUNC;
+  node->u.func = FUNC_TAN;
+  node->children_count = 1;
+  node->children[0] = expr;
+  return node;
+}
+
 
 void ast_destroy(struct ast *self) {
 

@@ -86,7 +86,7 @@ cmd:
   | KW_HEADING expr         { $$ = make_cmd_heading($2); }
   | KW_COLOR expr expr expr { $$ = make_cmd_color($2, $3, $4); }
   | KW_HOME                 { $$ = make_cmd_home(); }
-  | FUNC_COS                { $$ = make_cmd_home(); }
+  | FUNC_COS expr           { $$ = make_cmd_home(); }
   | COLOR_RED               { $$ = make_cmd_color(make_expr_value(1.0), make_expr_value(0.0), make_expr_value(0.0)); }
   | COLOR_GREEN             { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(1.0), make_expr_value(0.0)); }
   | COLOR_BLUE              { $$ = make_cmd_color(make_expr_value(0.0), make_expr_value(0.0), make_expr_value(1.0)); }

@@ -83,6 +83,12 @@ struct ast_node *make_cmd_heading(struct ast_node *expr);
 struct ast_node *make_cmd_color(struct ast_node *valueR, struct ast_node *valueG, struct ast_node *valueB);
 struct ast_node *make_cmd_home();
 
+struct ast_node *make_func_cos(struct ast_node *expr);
+struct ast_node *make_func_rand();
+struct ast_node *make_func_sin(struct ast_node *expr);
+struct ast_node *make_func_sqrt(struct ast_node *expr);
+struct ast_node *make_func_tan(struct ast_node *expr);
+
 
 // root of the abstract syntax tree
 struct ast {
