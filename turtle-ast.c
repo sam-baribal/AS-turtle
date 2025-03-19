@@ -18,6 +18,21 @@ struct ast_node *make_expr_value(double value) {
   return node;
 }
 
+struct ast_node *make_expr_name(const char* name) {
+  struct ast_node *node = calloc(1, sizeof(struct ast_node));
+  node->kind = KIND_EXPR_NAME;
+  if (strcmp(name, "PI") == 0){
+    node->u.value = PI;
+  }
+  if (strcmp(name, "SQRT2") == 0){
+    node->u.value = SQRT2;
+  }
+  if (strcmp(name, "SQRT3") == 0){
+    node->u.value = SQRT3;
+  }
+  return node;
+}
+
 struct ast_node *make_cmd_forward(struct ast_node *expr) {
   struct ast_node *node = calloc(1, sizeof(struct ast_node));
   node->kind = KIND_CMD_SIMPLE;
@@ -177,7 +192,10 @@ void ast_destroy(struct ast *self) {
  */
 
 void context_create(struct context *self) {
-
+  self->x = 0;
+  self->y = 0;
+  self->angle = 0;
+  self->up = false;
 }
 
 /*
@@ -193,5 +211,5 @@ void ast_eval(const struct ast *self, struct context *ctx) {
  */
 
 void ast_print(const struct ast *self) {
-
+  
 }

@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
 
 #include "turtle-ast.h"
 #include "turtle-lexer.h"
@@ -15,7 +16,7 @@ int main() {
   if (ret != 0) {
     return ret;
   }
-
+  
   yylex_destroy();
 
   assert(root.unit);

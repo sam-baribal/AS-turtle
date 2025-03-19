@@ -68,7 +68,7 @@ struct ast_node {
 // TODO: make some constructors to use in parser.y
 // for example:
 struct ast_node *make_expr_value(double value);
-struct ast_node *make_expr_color(double r, double g, double b);
+struct ast_node *make_expr_name(const char* name);
 
 struct ast_node *make_cmd_print(struct ast_node *expr);
 struct ast_node *make_cmd_forward(struct ast_node *expr);
@@ -88,7 +88,6 @@ struct ast_node *make_func_rand(struct ast_node *down_limit, struct ast_node *up
 struct ast_node *make_func_sin(struct ast_node *expr);
 struct ast_node *make_func_sqrt(struct ast_node *expr);
 struct ast_node *make_func_tan(struct ast_node *expr);
-
 
 // root of the abstract syntax tree
 struct ast {

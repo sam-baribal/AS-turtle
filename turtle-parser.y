@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include <math.h>
 
 #include "turtle-ast.h"
 
@@ -59,6 +60,9 @@ void yyerror(struct ast *ret, const char *);
 %token            COLOR_GRAY    "gray"
 %token            COLOR_WHITE   "white"
 
+%left '+' '-'
+%left '*' '/'
+ 
 /* TODO: add other tokens */
 
 %type <node> unit cmds cmd expr
@@ -67,7 +71,6 @@ void yyerror(struct ast *ret, const char *);
 
 unit:
     cmds              { $$ = $1; ret->unit = $$; }
-;
 
 cmds:
     cmd cmds          { $1->next = $2; $$ = $1; }
@@ -103,9 +106,16 @@ cmd:
 ;
 
 expr:
-    VALUE           { $$ = make_expr_value($1); }
-    /* TODO: add identifier */
-;
+    VALUE             { $$ = make_expr_value($1); }
+  | NAME              { $$ = make_expr_name($1); }
+  | expr '+' expr     { $$ = make_expr_value($1->u.value + $3->u.value); }
+  | expr '-' expr     { $$ = make_expr_value($1->u.value - $3->u.value); }
+  | expr '*' expr     { $$ = make_expr_value($1->u.value * $3->u.value); }
+  | expr '/' expr     { $$ = make_expr_value($1->u.value / $3->u.value); }
+  | expr '^' expr     { $$ = make_expr_value(pow($1->u.value, $3->u.value)); }
+  | '-' expr          { $$ = make_expr_value(-$2->u.value); }
+  | '(' expr ')'      { /*$$ = ; */}
+ ;
 
 %%
 
