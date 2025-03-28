@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 // simple commands
 enum ast_cmd {
@@ -46,6 +47,8 @@ enum ast_kind {
 };
 
 #define AST_CHILDREN_MAX 3
+#define PROC_MAX 20
+#define VAR_MAX 20
 
 // a node in the abstract syntax tree
 struct ast_node {
@@ -80,14 +83,23 @@ struct ast_node *make_cmd_down();
 struct ast_node *make_cmd_right(struct ast_node *expr);
 struct ast_node *make_cmd_left(struct ast_node *expr);
 struct ast_node *make_cmd_heading(struct ast_node *expr);
-struct ast_node *make_cmd_color(struct ast_node *valueR, struct ast_node *valueG, struct ast_node *valueB);
+struct ast_node *make_cmd_color_RGB(struct ast_node *valueR, struct ast_node *valueG, struct ast_node *valueB);
+struct ast_node *make_cmd_color_name(const char *name);
 struct ast_node *make_cmd_home();
+struct ast_node *make_cmd_repeat(struct ast_node *expr, struct ast_node *block);
+struct ast_node *make_cmd_proc(struct ast_node *name, struct ast_node *body);
+struct ast_node *make_cmd_call(struct ast_node *name);
+struct ast_node *make_cmd_block(struct ast_node *first_command);
+struct ast_node *make_cmd_set(struct ast_node *name, struct ast_node *value);
 
-struct ast_node *make_func_cos(struct ast_node *expr);
-struct ast_node *make_func_rand(struct ast_node *down_limit, struct ast_node *up_limit);
-struct ast_node *make_func_sin(struct ast_node *expr);
-struct ast_node *make_func_sqrt(struct ast_node *expr);
-struct ast_node *make_func_tan(struct ast_node *expr);
+struct ast_node *make_expr_func_cos(struct ast_node *expr);
+struct ast_node *make_expr_func_rand(struct ast_node *down_limit, struct ast_node *up_limit);
+struct ast_node *make_expr_func_sin(struct ast_node *expr);
+struct ast_node *make_expr_func_sqrt(struct ast_node *expr);
+struct ast_node *make_expr_func_tan(struct ast_node *expr);
+struct ast_node *make_expr_unary_operator(const char operator, struct ast_node *expr);
+struct ast_node *make_expr_binary_operator(const char operator, struct ast_node *expr1, struct ast_node *expr2);
+struct ast_node *make_expr_block(struct ast_node *first_command);
 
 // root of the abstract syntax tree
 struct ast {
@@ -96,6 +108,7 @@ struct ast {
 
 // do not forget to destroy properly! no leaks allowed!
 void ast_destroy(struct ast *self);
+void ast_destroy_node(struct ast_node *self);
 
 // the execution context
 struct context {
@@ -104,8 +117,19 @@ struct context {
   double angle;
   bool up;
 
-  // TODO: add procedure handling
-  // TODO: add variable handling
+  struct {
+    char *name;
+    struct ast_node *body;
+  } procedures[PROC_MAX];
+  
+  int proc_count;
+
+  struct {
+    char *name;
+    double value;
+  } variables[VAR_MAX];
+
+  int var_count;
 };
 
 // create an initial context
@@ -113,8 +137,12 @@ void context_create(struct context *self);
 
 // print the tree as if it was a Turtle program
 void ast_print(const struct ast *self);
+void ast_print_node(const struct ast_node *self, FILE * stream);
 
 // evaluate the tree and generate some basic primitives
 void ast_eval(const struct ast *self, struct context *ctx);
+void ast_eval_node(const struct ast_node *self, struct context *ctx, FILE * stream);
+
+double ast_get_value(const struct ast_node *self, struct context *ctx);
 
 #endif /* TURTLE_AST_H */

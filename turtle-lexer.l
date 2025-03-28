@@ -12,7 +12,9 @@
 DIGIT [0-9]
 EXP [eE][+-]?({DIGIT}+)
 DEC "."{DIGIT}*
-COMM  #.*\n
+COMM  #.*
+UPPER [A-Z]
+NAME [A-Z0-9]
 
 %%
 
@@ -27,6 +29,16 @@ COMM  #.*\n
 "heading"|"hd"        { return KW_HEADING; }
 "color"               { return KW_COLOR; }
 "home"                { return KW_HOME; }
+"repeat"              { return KW_REPEAT; }
+"random"              { return KW_RANDOM; }
+"{"                   { return KW_BLOCK_START; }
+"}"                   { return KW_BLOCK_END; }
+"("                   { return KW_PARAM_START; }
+")"                   { return KW_PARAM_END; }
+","                   { return KW_PARAM_SEP; }
+"set"                 { return KW_SET; }
+"proc"                { return KW_PROC; }
+"call"                { return KW_CALL; }
 
 "red"       { return COLOR_RED; }
 "green"     { return COLOR_GREEN; }
@@ -42,14 +54,11 @@ COMM  #.*\n
 "-"           { return '-'; }
 "*"           { return '*'; }
 "/"           { return '/'; }
-"("           { return '('; }
-")"           { return ')'; }
-"{"           { return '{'; }
-"}"           { return '}'; }
 "^"           { return '^'; }
 
+{UPPER}{NAME}*                  { yylval.name = strdup(yytext); return NAME; }
 {DIGIT}+{DEC}?{EXP}?            { yylval.value = strtod(yytext, NULL); return VALUE; }
-{COMM}                          { return '\n'; }
+{COMM}                          /* comms */ 
 
 [\n\t ]*              /* whitespace */
 .                     { fprintf(stderr, "Unknown token: '%s'\n", yytext); exit(EXIT_FAILURE); }
