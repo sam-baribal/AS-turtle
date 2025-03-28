@@ -192,6 +192,53 @@ void ast_eval(const struct ast *self, struct context *ctx) {
  * print
  */
 
-void ast_print(const struct ast *self) {
+void ast_print_node(const struct ast_node *self) {
+  switch (self->kind) {
+  case (KIND_CMD_SIMPLE):
+    printf ("cmd_simple");
+    break;
+  case (KIND_CMD_REPEAT):
+    printf ("cmd_repeat");
+    break;
+  case (KIND_CMD_BLOCK):
+    printf ("cmd_block");
+    break;
+  case (KIND_CMD_PROC):
+    printf ("cmd_proc");
+    break;
+  case (KIND_CMD_CALL):
+    printf ("cmd_call");
+    break;
+  case (KIND_CMD_SET):
+    printf ("cmd_set");
+    break;
+  case (KIND_EXPR_FUNC):
+    printf ("expr_func");
+    break;
+  case (KIND_EXPR_VALUE):
+    printf ("expr_value : %f", self->u.value);
+    break;
+  case (KIND_EXPR_UNOP):
+    printf ("expr_unop : %c", self->u.op);
+    break;
+  case (KIND_EXPR_BINOP):
+    printf ("expr_binop : %c", self->u.op);
+    break;
+  case (KIND_EXPR_BLOCK):
+    printf ("expr_block");
+    break;
+  case (KIND_EXPR_NAME):
+    printf ("expr_name");
+    break;
+  default:
+    printf ("default");
+  }
+  printf ("\n"); 
+  if (self->next != NULL) {
+    ast_print_node (self->next);
+  }
+}
 
+void ast_print(const struct ast *self) {
+  ast_print_node(self->unit);
 }
